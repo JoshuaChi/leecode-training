@@ -1,6 +1,4 @@
-package test;
-
-import java.text.DecimalFormat;
+package leecode;
 
 public class Solution1b {
 	public int add(int num) {

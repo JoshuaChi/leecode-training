@@ -1,14 +1,15 @@
-package test;
+package leecode;
 
 public class MaxPointsOnALine {
 
 	public int maxPoints(Point[] points) {
-		Array[] collection = new Array
 		for(int i=0; i<points.length; i++) {
 			for(int j=i+1; j<points.length; j++) {
 				Point p1 = points[i];
 				Point p2 = points[j];
-				if ()
+				if (true) {
+
+				}
 			}
 		}
 		return 0;

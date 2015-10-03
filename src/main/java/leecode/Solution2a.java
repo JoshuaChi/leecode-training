@@ -1,8 +1,6 @@
-package test;
+package leecode;
 
-import java.util.ArrayList;
-
-public class Solution2b {
+public class Solution2a {
 	public int cal(int num) {
 		if(num == 1) {
 			return num;
@@ -19,31 +17,30 @@ public class Solution2b {
 		return result;
 	}
 
-	public boolean _isHappy(int n, ArrayList<Integer> store) {
+	public boolean _isHappy(int n, String store) {
 		int result = cal(n);
 		if (result == 1) {
 			return true;
-		}else if(result == 0) {
-			return false;
 		} else {
+			String temp = String.valueOf(result);
 			System.out.println("store:"+ store);
-			if (store.contains(result) == false) {
-				store.add(result);
-				return _isHappy(result, store);
+			if (store.indexOf(";"+temp) == -1) {
+				return _isHappy(result, store += temp+";");
 			}else {
 				return false;
 			}
 		}
+
 	}
 	public boolean isHappy(int n) {
 		System.out.println(n);
-		ArrayList<Integer> store = new ArrayList<Integer>();
+		String store = ";";
 		return _isHappy(n, store);
 
 	}
 
 	public static void main(String[] args) {
-		Solution2b s = new Solution2b();
+		Solution2a s = new Solution2a();
 		System.out.println(s.isHappy(37));
 	}
 

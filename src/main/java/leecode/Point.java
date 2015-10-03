@@ -1,4 +1,4 @@
-package test;
+package leecode;
 
 /**
  * Created by joshua on 15-9-28.

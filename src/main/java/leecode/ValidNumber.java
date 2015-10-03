@@ -1,6 +1,4 @@
-package test;
-
-import java.util.ArrayList;
+package leecode;
 
 public class ValidNumber {
 	public boolean isNumber(String s) {
