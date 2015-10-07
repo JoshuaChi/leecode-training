@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * Created by Joshua on 10/1/15.
- * https://leetcode.com/problems/next-permutation/
+ * https://leetcode.com/problems/peeked-permutation/
  *
  * 265 / 265 test cases passed.
  * Status: Accepted
