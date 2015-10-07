@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 /**
  * @author Joshua
- * 
+ *
  * 12 / 12 test cases passed.
  * Status: Accepted
  * Runtime: 37 ms
