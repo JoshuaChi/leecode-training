@@ -2,29 +2,28 @@ package leecode;
 
 import java.util.Iterator;
 
+/**
+ * @author Joshua
+ * 
+ * 12 / 12 test cases passed.
+ * Status: Accepted
+ * Runtime: 37 ms
+ */
 // Java Iterator interface reference:
 // https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html
 class PeekingIterator implements Iterator<Integer> {
 
-    private Iterator<Integer> i = null;
+    private Iterator<Integer> i;
     private Integer peeked = null;
-    private boolean hasPeeked = false;
 
     public PeekingIterator(Iterator<Integer> iterator) {
-        if (iterator != null) {
-            // initialize any member here.
-            i = iterator;
-        }
+        this.i = iterator;
     }
 
     // Returns the peeked element in the iteration without advancing the iterator.
     public Integer peek() {
-        if (i == null) {
-            return null;
-        }
-        if (!hasPeeked) {
+        if (peeked == null) {
             peeked = i.next();
-            hasPeeked = true;
         }
         return peeked;
     }
@@ -33,31 +32,23 @@ class PeekingIterator implements Iterator<Integer> {
     // Override them if needed.
     @Override
     public Integer next() {
-        if (i == null) {
-            return null;
+        if (peeked != null) {
+            Integer tmp = peeked;
+            peeked = null;
+            return tmp;
         }
-        if (!hasPeeked) {
-            peeked = i.next();
-            hasPeeked =  true;
-        }
-        return peeked;
+        return i.next();
     }
 
     @Override
     public void remove() {
-        if (i == null) {
-            return;
-        }
-        if (hasPeeked) {
+        if (peeked != null) {
             i.remove();
         }
     }
 
     @Override
     public boolean hasNext() {
-        if (i == null) {
-            return false;
-        }
-        return hasPeeked || i.hasNext();
+        return (peeked != null) || i.hasNext();
     }
 }
