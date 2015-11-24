@@ -1,4 +1,4 @@
-package leecode;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +29,18 @@ public class ExpressionAddOperators {
      * @param factor
      * @return List<Integer>
      */
-    private ArrayList<ArrayList<Integer>> composeFactor(String factor) {
+    public ArrayList<ArrayList<Integer>> composeFactor(String factor) {
         ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
         int i = 0;
-        int inter = 1;
-        while (inter < factor.length()) {
-            while(i < factor.length()-1) {
-                factor.substring(i, i+1);
-
+        int j = 1;
+        while (j < factor.length()) {
+            ArrayList<Integer> temp = new ArrayList<Integer>();
+            while(i < factor.length()-j+1) {
+                temp.add(Integer.valueOf(factor.substring(i, i + j)));
+                i++;
             }
-            inter++;
+            result.add(temp);
+            j++;
         }
 
         return result;

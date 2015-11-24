@@ -1,4 +1,4 @@
-package leecode;
+package leetcode;
 
 public class Solution1a {
     public int addDigits(int num) {

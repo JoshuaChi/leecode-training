@@ -1,4 +1,4 @@
-package leecode;
+package leetcode;
 
 public class Solution2a {
 	public int cal(int num) {
