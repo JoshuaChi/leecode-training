@@ -2,7 +2,7 @@
 .idea/
 .project
 .settings/
-leecode-training.iml
+leetcode-training.iml
 package.xml
 target/*
 *.class
