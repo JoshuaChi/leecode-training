@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 /**
- * Created by Joshua on 11/24/15.
+ * Created by joshua.chi on 11/24/15.
  */
 public class ExpressionAddOperatorsTest {
     @Test
@@ -16,10 +16,12 @@ public class ExpressionAddOperatorsTest {
             for(Integer j: i) {
                 System.out.println(i+"-"+j);
             }
-
         }
+    }
 
-
-
+    @Test
+    public void testAddOperators () {
+        ExpressionAddOperators ex = new ExpressionAddOperators();
+        ex.addOperators("123", 6);
     }
 }
