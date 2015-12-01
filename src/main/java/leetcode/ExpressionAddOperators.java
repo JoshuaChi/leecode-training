@@ -1,12 +1,16 @@
 package leetcode;
 
-import java.util.*;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Joshua on 10/7/15.
  */
 public class ExpressionAddOperators {
-    public List<String> addOperators(String num, int target) {
+    public List<String> addOperators(String num, int target) throws ScriptException {
         ArrayList<ArrayList<Integer>> factorArray = composeFactor(num);
         for (ArrayList<Integer> group : factorArray) {
             compose(target, group);
@@ -17,11 +21,11 @@ public class ExpressionAddOperators {
     /**
      * Give a target(e.g. 6), try +|-|* with provide denominator(e.g. 123)
      *
-     * @param target e.g. 6
+     * @param target      e.g. 6
      * @param denominator e.g. 1,2,3
      * @return String - 1+2+3 or 1*2*3
      */
-    public void compose(int target, ArrayList<Integer> denominator) {
+    public void compose(int target, ArrayList<Integer> denominator) throws ScriptException {
         ArrayList<String> result = new ArrayList<String>();
 
         //e.g. 1
@@ -30,35 +34,15 @@ public class ExpressionAddOperators {
         //e.g. "1"
         String stringResult = String.valueOf(resultFromLastCalculation);
 
-        HashMap<Integer, String> collection = new HashMap<Integer, String>();
-        int i = 0;
-//        while (denominator.size() > i+1) {
-            //e.g.
-            calculate(target, resultFromLastCalculation, stringResult, denominator, i);
-//        }
+        evalCalculate(target, stringResult, denominator, 0);
 
-        Iterator<Map.Entry<Integer, String>> it = collection.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<Integer, String> pair = it.next();
-            if (pair.getKey() == target) {
-                result.add(pair.getValue());
-            }
-        }
-
-//        System.out.println(result.toString());
     }
 
-    /**
-     * If the denominator.length - 1 > 0, continue calculate in this function.
-     *
-     * @param resultFromLastCalculation
-     * @param result
-     */
-    public void calculate(int target, int resultFromLastCalculation, String result, ArrayList<Integer>
-            denominator, int index) {
+    public void evalCalculate(int target, String result, ArrayList<Integer>
+            denominator, int index) throws ScriptException {
         int size = denominator.size();
-        if (index+1 > size) {
-            if (resultFromLastCalculation == target) {
+        if (index + 1 > size) {
+            if (eval(result) == target) {
                 System.out.println(result);
             }
 
@@ -67,17 +51,25 @@ public class ExpressionAddOperators {
 
         int number = denominator.get(index);
 
-//        System.out.println("     -    " + size +" - " + result + "-" + number);
-        calculate(target, resultFromLastCalculation - number, result + "-" + number,
-                denominator, index+1);
+//        System.out.println("     -    " + size + " - " + result + "-" + number);
+        evalCalculate(target, result + "-" + number,
+                denominator, index + 1);
 
-//        System.out.println("     +    " + size +" - " + result + "+" + number);
-        calculate(target, resultFromLastCalculation + number, result + "+" + number,
-                denominator, index+1);
+//        System.out.println("     +    " + size + " - " + result + "+" + number);
+        evalCalculate(target, result + "+" + number,
+                denominator, index + 1);
 
-//        System.out.println("     *    " + size +" - " + result + "*" + number);
-        calculate(target, resultFromLastCalculation * number, result + "*" + number,
-                denominator, index+1);
+//        System.out.println("     *    " + size + " - " + result + "*" + number);
+        evalCalculate(target, result + "*" + number,
+                denominator, index + 1);
+    }
+
+    private Integer eval(String expression) throws ScriptException {
+        ScriptEngineManager mgr = new ScriptEngineManager();
+        ScriptEngine engine = mgr.getEngineByName("JavaScript");
+
+        return (Integer) engine.eval(expression);
+
     }
 
     /**
