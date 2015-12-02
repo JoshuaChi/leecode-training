@@ -2,7 +2,6 @@ package leetcode;
 
 import org.junit.Test;
 
-import javax.script.ScriptException;
 import java.util.ArrayList;
 
 /**
@@ -12,16 +11,16 @@ public class ExpressionAddOperatorsTest {
     @Test
     public void testComposeFactor() throws Exception {
         ExpressionAddOperators ex = new ExpressionAddOperators();
-        ArrayList<ArrayList<Integer>> result = ex.composeFactor("3456237490");
-        for(ArrayList<Integer> i: result) {
-            for(Integer j: i) {
+        ArrayList<ArrayList<Long>> result = ex.composeFactor("3456237490");
+        for(ArrayList<Long> i: result) {
+            for(Long j: i) {
                 System.out.println(i+"-"+j);
             }
         }
     }
 
     @Test
-    public void testAddOperators () throws ScriptException {
+    public void testAddOperators () {
         ExpressionAddOperators ex = new ExpressionAddOperators();
 //        ex.addOperators("232", 8);
 //        ex.addOperators("105", 5);
