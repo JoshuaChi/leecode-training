@@ -3,6 +3,7 @@ package leetcode;
 /**
  * Created by Joshua on 5/12/17.
  */
+
 import java.util.Scanner;
 
 public class BalancedBrackets {
@@ -26,7 +27,7 @@ public class BalancedBrackets {
             }
 
             public Element getPrev() {
-                return  this.prev;
+                return this.prev;
             }
 
             public E getData() {
@@ -34,7 +35,7 @@ public class BalancedBrackets {
             }
         }
 
-        public Stack () {
+        public Stack() {
             this.last = null;
         }
 
@@ -44,8 +45,7 @@ public class BalancedBrackets {
 
             if (last == null) {
                 this.last = newElement;
-            }
-            else {
+            } else {
                 Element currentLast = this.last;
                 newElement.setPrev(currentLast);
                 this.last = newElement;
@@ -56,8 +56,7 @@ public class BalancedBrackets {
         public E pop() {
             if (this.last == null) {
                 return null;
-            }
-            else {
+            } else {
                 Element currentLast = this.last;
                 this.last = currentLast.getPrev();
 
@@ -76,29 +75,23 @@ public class BalancedBrackets {
 
         char[] brackets = expression.trim().toCharArray();
 
-        boolean shouldContinuePop = false;
-        for (int i=0; i< brackets.length; i++) {
+        for (int i = 0; i < brackets.length; i++) {
             char pair = getPair(brackets[i]);
             switch (pair) {
                 case '}':
                 case ')':
                 case ']':
-                    if (shouldContinuePop == false) {
-                        stack.push(pair);
-                        shouldContinuePop = true;
-                        break;
-                    }
+                    stack.push(pair);
+                    break;
                 default:
                     Character top = stack.pop();
                     if (top == null || top != Character.valueOf(brackets[i])) {
                         return false;
                     }
-                    else {
-                        if (stack.getLength() > 0) {
-                            shouldContinuePop = true;
-                        }
-                    }
             }
+        }
+        if (stack.length > 0) {
+            return false;
         }
         return true;
     }
@@ -123,7 +116,7 @@ public class BalancedBrackets {
         int t = in.nextInt();
         for (int a0 = 0; a0 < t; a0++) {
             String expression = in.next();
-            System.out.println( (balancedBrackets.isBalanced(expression)) ? "YES" : "NO" );
+            System.out.println((balancedBrackets.isBalanced(expression)) ? "YES" : "NO");
         }
     }
 }
