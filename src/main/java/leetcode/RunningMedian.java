@@ -9,6 +9,53 @@ import java.util.Scanner;
  * @date 5/12/17
  */
 public class RunningMedian {
+    public class Heap {
+        Element root;
+
+        public class Element {
+            int data;
+            Element left;
+            Element right;
+            public Element(int d) {
+                this.data = d;
+            }
+
+            public void setLeft(Element left) {
+                this.left = left;
+            }
+
+            public void setRight(Element right) {
+                this.right = right;
+            }
+        }
+
+        public void makeMinHeap(int[] items) {
+
+            moveDown(items, items.length/2);
+
+
+        }
+
+        public void moveDown(int[] nums, int length) {
+            for (int i=0; i< length; i++) {
+                int left = 2 * i + 1;
+                int right = 2 * (i + 1);
+                if (nums[i] < nums[left]) {
+                    swap(nums, i, left);
+                }
+                if (nums[i] < nums[right]) {
+                    swap(nums, i, right);
+                }
+                moveDown(nums,);
+
+            }
+        }
+
+        public void makeMaxHeap(int[] items) {
+
+
+        }
+    }
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
