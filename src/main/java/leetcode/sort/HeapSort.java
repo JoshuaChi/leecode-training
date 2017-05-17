@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.sort;
 
 /**
  * Created by Joshua.Chi <joshua.chi@akqa.com>
