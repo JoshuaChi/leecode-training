@@ -46,7 +46,7 @@ public class RunningMedian {
                 if (nums[i] < nums[right]) {
                     swap(nums, i, right);
                 }
-                moveDown(nums,);
+//                moveDown(nums,);
 
             }
         }
