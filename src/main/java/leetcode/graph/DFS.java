@@ -1,4 +1,4 @@
-package leetcode.graphic;
+package leetcode.graph;
 
 import java.util.HashSet;
 import java.util.Scanner;

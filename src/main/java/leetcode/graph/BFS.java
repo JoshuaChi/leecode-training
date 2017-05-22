@@ -1,4 +1,4 @@
-package leetcode.graphic;
+package leetcode.graph;
 
 import java.util.LinkedList;
 import java.util.Scanner;

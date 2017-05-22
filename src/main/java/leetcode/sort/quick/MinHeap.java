@@ -54,8 +54,8 @@ public class MinHeap {
         elements[0] = elements[size-1];
         elements[size-1] = -1;
         this.size--;
-//        down(0);
-        heapifyDown();
+        down(0);
+//        heapifyDown();
         return top;
     }
 
@@ -64,27 +64,49 @@ public class MinHeap {
             int left = 2*index + 1;
             int right = 2*(index + 1);
 
-            boolean hasSwap = false;
-            int max = index;
+            int smallerIndex = -1;
 
+            if (left < size && right < size) {
+                smallerIndex = left;
+                if (elements[left] > elements[right]) {
+                    smallerIndex = right;
+                }
+            }
+            else if(left < size) {
+                smallerIndex = left;
+            }
+            else if(right < size) {
+                smallerIndex = right;
+            }
+
+            if (smallerIndex != -1 && elements[index] > elements[smallerIndex]) {
+                swap(index, smallerIndex);
+                index = smallerIndex;
+            }
+            else {
+                break;
+            }
+
+/*
+//original: root:8; l: 6; r:4 -> root: 6; l: 8; r:4; -> root: 4; l: 8; r:6;
+// So here we swp left and right order, which will break the order inside the original heap
             if (left < size && elements[index] > elements[left]) {
                 swap(index, left);
                 counter[0] += 1;
-                max = left;
-                hasSwap = true;
+                smallerIndex = left;
             }
 
             if (right < size && elements[index] > elements[right]) {
                 swap(index, right);
                 counter[0] += 1;
-                max = right;
-                hasSwap = true;
+                smallerIndex = right;
             }
 
-            index = max;
-            if (false == hasSwap) {
+            index = smallerIndex;
+            if (-1 == smallerIndex) {
                 break;
             }
+*/
         }
     }
 
