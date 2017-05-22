@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.heap.exercises;
 
 import java.util.Scanner;
 
