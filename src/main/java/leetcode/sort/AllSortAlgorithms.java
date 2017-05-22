@@ -1,9 +1,11 @@
-package leetcode.sort.quick;
+package leetcode.sort;
+
+import leetcode.sort.quick.MinHeap;
 
 /**
  * Created by joshua.chi on 5/22/17.
  */
-public class QuickSort {
+public class AllSortAlgorithms {
     /**
      * Simulate algorithm from below:
      *  https://www.youtube.com/watch?v=ywWBy6J5gz8
