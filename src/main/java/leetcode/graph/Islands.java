@@ -58,7 +58,7 @@ class Islands
     }
 
     public int countIslands(int[][] m) {
-        HashSet<String> visited = new HashSet<>();
+        HashSet<String> visited = new HashSet();
         int count = 0;
 
         int i=0;
