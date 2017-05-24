@@ -18,85 +18,110 @@ public class RoadsAndLibraries {
             int x = in.nextInt(); // lib cost
             int y = in.nextInt(); // road cost
 
-            HashMap<Integer, HashSet<Integer>> hashmap = new HashMap<>();
+            int[] cities = new int[n];
 
-            int[] nn = new int[n];
+            int[][] map = new int[n][n];
             for(int a1 = 0; a1 < m; a1++){
                 int city_1 = in.nextInt(); //city 1 is connected with city 2
                 int city_2 = in.nextInt();
-                if (checkAdd(hashmap, city_1) == false && checkAdd(hashmap, city_2) == false) {
-                    HashSet<Integer> hashSet = new HashSet<>();
-                    hashSet.add(city_1);
-                    hashSet.add(city_2);
-                    hashmap.put(city_1, hashSet);
-                    nn[city_1-1] = 1;
+                map[city_1-1][city_2-1] = 1;
+                map[city_2-1][city_1-1] = 1;
+
+                cities[city_1-1] = 1;
+                cities[city_2-1] = 1;
+            }
+            HashSet<String> visited = new HashSet<>();
+            long cost = cal(map, x ,y, visited);
+            for (int i=0;i<cities.length;i++) {
+                if (0 == cities[i]) {
+                    cost += x;
                 }
             }
-            adjust(hashmap, nn);
-            int cost = cal(hashmap, x ,y);
             System.out.println(cost);
         }
+        in.close();
     }
 
-    private static void adjust(HashMap<Integer, HashSet<Integer>> hashmap, int[] nn) {
-        for (int city: nn) {
-            if(city == -1) {
-                HashSet<Integer> set = new HashSet<>();
-                set.add(city+1);
-                hashmap.put(city+1, set);
-            }
-        }
-    }
-
-    public static boolean checkAdd(HashMap<Integer, HashSet<Integer>> hashmap, int key) {
-        boolean contains = false;
-        if (hashmap.containsKey(key)) {
-            HashSet<Integer> set = hashmap.get(key);
-            if (set.contains(key) == false) {
-                set.add(key);
-            }
-            hashmap.put(key, set);
-            contains = true;
-        }
-        return contains;
-    }
-
-    private static int cal(HashMap<Integer, HashSet<Integer>> hashmap, int libCost, int roadCost) {
-
+    private static long cal(int[][] map, int libCost, int roadCost, HashSet<String> visited) {
         int cost = 0;
-        Iterator<Map.Entry<Integer, HashSet<Integer>>> i = hashmap.entrySet().iterator();
-        while(i.hasNext()) {
-            Map.Entry next = i.next();
-            int key = (int) next.getKey();
-            HashSet<Integer> hashSet = (HashSet<Integer>)next.getValue();
-
-            cost += minCost(hashSet, libCost, roadCost);
+        for (int i=0; i<map.length; i++) {
+            for (int j=0; j< map[0].length; j++) {
+                String key = key(i, j);
+                String reversedKey = key(j, i);
+                if ( (false == visited.contains(key)) &&  (false == visited.contains(reversedKey))) {
+                    HashSet<Integer> set = getIsland(map, i, j, visited);
+                    if (set.size() > 0) {
+                        if (libCost >= roadCost) {
+                            cost += roadCost * (set.size()-1) + libCost;
+                        }
+                        else {
+                            cost += libCost * set.size();
+                        }
+                    }
+                }
+            }
 
         }
-        //calculate connected islands
-        // for each sub map(connected islands), calculate lowest cost by loop island and calculate cost for each solution
-
         return cost;
     }
 
-    private static int minCost(HashSet<Integer> hashSet, int libCost, int roadCost) {
-        if (hashSet.isEmpty()) {
-            return 0;
+    private static String key(int x, int y) {
+        return String.format("%s-%s",x,y);
+    }
+
+    private static HashSet<Integer> getIsland(int[][] map, int x, int y, HashSet<String> visited) {
+        String key = key(x,y);
+        String reveredKey = key(y,x);
+
+        int originalX = x;
+        int originalY = y;
+        if (visited.contains(key) || visited.contains(reveredKey)) {
+            return new HashSet<>();
+        }else {
+            //mark this cell is visited;
+            visited.add(key);
+            visited.add(reveredKey);
         }
 
-        int min = -1;
-        for(int lib = 1; lib < hashSet.size(); lib++) {
-            int cost = lib*libCost + roadCost*(hashSet.size() - lib);
-            if (min == -1) {
-                min = cost;
-            }else {
-                if (min > cost) {
-                    min = cost;
-                }
-            }
+        //A set keeps all connected islands.
+        HashSet<Integer> set = new HashSet<>();
+        x = originalX+1;
+        y = originalY;
+        generate(map, x, y, visited, set);
+        x = originalX+1;
+        y = originalY+1;
+        generate(map, x, y, visited, set);
+        x = originalX+1;
+        y = originalY-1;
+        generate(map, x, y, visited, set);
+        x = originalX;
+        y = originalY-1;
+        generate(map, x, y, visited, set);
+        x = originalX;
+        y = originalY+1;
+        generate(map, x, y, visited, set);
+        x = originalX-1;
+        y = originalY-1;
+        generate(map, x, y, visited, set);
+        x = originalX-1;
+        y = originalY;
+        generate(map, x, y, visited, set);
+        x = originalX-1;
+        y = originalY+1;
+        generate(map, x, y, visited, set);
+        return set;
+    }
 
+    private static void generate(int[][] map, int x, int y, HashSet<String> visited, HashSet<Integer> set) {
+        String key;
+        key = key(x, y);
+        if (x>=0 && x< map.length && y>=0 && y<map.length &&
+                map[x][y] == 1 && visited.contains(key) == false) {
+            set.add(x);
+            set.add(y);
+            HashSet<Integer> tmpSet = getIsland(map, x, y, visited);
+            tmpSet.forEach(a -> set.add(a));
         }
-        return min;
     }
 
 }
