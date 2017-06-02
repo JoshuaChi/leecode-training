@@ -33,4 +33,18 @@ public class Node {
         }
         return true;
     }
+
+    public boolean hasLeft() {
+        if (left !=null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasRight() {
+        if (right !=null) {
+            return true;
+        }
+        return false;
+    }
 }
