@@ -8,90 +8,59 @@ import java.util.HashSet;
  */
 public class UniquePath {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        //start from 0x0, end at 3x3, if length is 4
-        //use visited to track visited node in each try
-        //we loop all tries by using dp, giving a node and visited,
-        // for each try, we record the visited node in order with a Set
-        //At last, we will loop the set and find item.length == 4 and count items
+        int lengthY = obstacleGrid[0].length;
+        int lengthX = obstacleGrid.length;
 
-        //step1: giving a node, try the 8 directions,
-        //  if the current node indexX==3 and indexY==3, stop.
-
-
-        HashMap<String, HashSet<String>> visited = new HashMap<>();
-        HashSet<String> roads = new HashSet<>();
-
-        loop(obstacleGrid,0,0,roads, "", visited);
-
-        return roads.size();
-    }
-
-    public void loop(int[][] ary, int x, int y,
-                     HashSet<String> roads,
-                     String path,
-                     HashMap<String, HashSet<String>> visited) {
-
-        int xlen = ary.length;
-        int ylen = ary[0].length;
-
-        if (x<0 ||y<0 ||x >=xlen || y>=ylen) {
-            return;
+        if (lengthX < 1 || lengthY < 1) {
+            return 0;
+        }
+        if (obstacleGrid[0][0] == 1) {
+            return 0;
+        }
+        for (int i = 0; i < obstacleGrid.length; i++) {
+            for (int j = 0; j < obstacleGrid[0].length; j++) {
+                if (obstacleGrid[i][j] == 0) {
+                    obstacleGrid[i][j] = 1;
+                } else if (obstacleGrid[i][j] == 1) {
+                    obstacleGrid[i][j] = 0;
+                }
+            }
         }
 
-        if (ary[x][y] == 1) {
-            return;
+        obstacleGrid[0][0] = 1;
+
+
+        for (int i = 0; i < lengthX; i++) {
+            for (int j = 0; j < lengthY; j++) {
+                if (i == 0 && j == 0) {
+                    obstacleGrid[i][j] = 1;
+                } else {
+                    if (obstacleGrid[i][j] == 0) {
+                        continue;
+                    }
+
+                    if ((i - 1) >= 0 && (j - 1) >= 0) {
+
+                        obstacleGrid[i][j] = (obstacleGrid[i - 1][j] == 0 ? 0 : obstacleGrid[i - 1][j]) + (obstacleGrid[i][j - 1] == 0 ? 0 : obstacleGrid[i][j - 1]);
+                    } else if ((i - 1) >= 0) {
+                        obstacleGrid[i][j] = (obstacleGrid[i - 1][j] == 0 ? 0 : obstacleGrid[i - 1][j]);
+                    } else if ((j - 1) >= 0) {
+                        obstacleGrid[i][j] = (obstacleGrid[i][j - 1] == 0 ? 0 : obstacleGrid[i][j - 1]);
+                    }
+                }
+            }
         }
-
-        String key = key(x, y);
-        String newPath = key(path, x, y);
-
-        //if it's the exist, we will record this road;
-        if ( ary[x][y] == 0 && x == (xlen-1) && y == (ylen-1) ) {
-            roads.add(newPath);
-            return;
-        }
-
-        HashSet<String> visitedCells = visited.get(path);
-        if (visitedCells == null) {
-            visitedCells = new HashSet<>();
-        }
-
-        if (visitedCells.contains(key)) {
-            return;
-        }
-
-        //added into visited
-        visitedCells.add(key);
-//        visited.remove(path);
-        visited.put(newPath, visitedCells);
-
-        //try different directions
-        //loop(ary, x, y-1, roads, newPath, visited);
-        loop(ary, x, y+1, roads, newPath, visited);
-        //loop(ary, x-1, y-1, roads, newPath, visited);
-        //loop(ary, x-1, y, roads, newPath, visited);
-        //loop(ary, x-1, y+1, roads, newPath, visited);
-        //loop(ary, x+1, y-1, roads, newPath, visited);
-        loop(ary, x+1, y, roads, newPath, visited);
-        //loop(ary, x+1, y+1, roads, newPath, visited);
-
-    }
-
-    public String key(int x, int y) {
-        return String.format("%s-%s", x, y);
-    }
-
-    public String key(String x, int i, int j) {
-        return String.format("%s->%s%s", x, i, j);
+        int row = lengthX - 1;
+        int col = lengthY - 1;
+        return obstacleGrid[row][col];
     }
 
     public static void main(String[] args) {
         UniquePath uniquePath = new UniquePath();
-        int[][] ary = new int[5][4];
-        ary[1][1] = 1;
-        ary[3][2] = 1;
-
+        int[][] ary = new int[1][2];
+        ary[0][1] = 1;
         int c = uniquePath.uniquePathsWithObstacles(ary);
         System.out.println(c);
     }
+
 }
