@@ -6,7 +6,7 @@ package leetcode;
 public class EncodeDecode {
     private static String base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()[]"; //42 - 64 = 12
 
-    public String encode64(String s) {
+/*    public String encode64(String s) {
         StringBuffer buffer = new StringBuffer();
 
         if (s.length()%3 != 0) {
@@ -24,5 +24,5 @@ public class EncodeDecode {
 
     public String decode(String s) {
 
-    }
+    }*/
 }
