@@ -7,6 +7,12 @@ Car
  - type: small/mid/large
  -
 
+Ticket
+ - car number
+ - enter time
+ - leave time
+ - fee
+ 
 Command
  - Park
  - Leave
