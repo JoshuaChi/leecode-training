@@ -5,32 +5,70 @@ package leetcode;
  */
 public class DivideTwoNumbers {
     /**
-     * 10/3 = 3
-     *  10 - 3 = 7
-     *      7 - 3 = 4
-     *          4 - 3 = 1
+     * Notes:
+     *  1). use Math.abs
+     *  2). transfer to int
+     *  3). sum of sum ; count of count
      *
      * @param dividend
      * @param divisor
      * @return
      */
-    public int divide(int dividend, int divisor) {
+    public int divide(long dividend, long divisor) {
 
-        if (dividend < 0 &) {
-
+        if(divisor == 0 ) {
+            return -1;
         }
+        long dividendAb = Math.abs(dividend);
+        long divisorAb = Math.abs(divisor);
+
+        long count = d(dividendAb, divisorAb);
+
+        if ( (dividend < 0 && divisor > 0) || (dividend > 0 && divisor < 0) ) {
+            if (count > Integer.MAX_VALUE) {
+                return Integer.MIN_VALUE;
+            }
+            else {
+                return -1 * (int)count;
+            }
+        }
+        else {
+            if (count > Integer.MAX_VALUE) {
+                return Integer.MAX_VALUE;
+            }
+            else {
+                return (int)count;
+            }
+        }
+
+    }
+
+    public long d (long dividend, long divisor) {
+        if (divisor == 1) {
+            return dividend;
+        }
+
+        if (dividend == 0) {
+            return 0L;
+        }
+
         if (divisor > dividend) {
-            return 0;
+            return 0L;
         }
 
-        Math.abs(dividend) - Mas
-        return 1 + divide(dividend-divisor, divisor);
+        int count = 1;
+        long dsor = divisor;
+        while (dsor + dsor < dividend) {
+            count += count;
+            dsor += dsor;
+        }
 
+        return count + d(dividend - dsor, divisor);
     }
 
     public static void main(String[] args) {
         DivideTwoNumbers d = new DivideTwoNumbers();
-        int c = d.divide(10, 3);
+        long c = d.divide(-2147483648, -1);
         System.out.println(c);
     }
 }
