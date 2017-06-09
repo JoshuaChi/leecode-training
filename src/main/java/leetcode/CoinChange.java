@@ -1,10 +1,5 @@
 package leetcode;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-
 /**
  * Created by Joshua on 6/8/17.
  *
@@ -17,49 +12,36 @@ import java.util.List;
  5=1+1+1+1+1
  */
 public class CoinChange {
+    int[] dp;
     public int change(int amount, int[] coins) {
+        int[] dp = new int[amount+1];
 
-        if (coins.length < 1 || amount < 1) {
+        dp[0] = 1;
+        if (0 == amount) {
+            return 1;
+        }
+
+        if (coins.length < 1) {
             return 0;
         }
 
-        int[] counter = new int[1];
-        HashSet<String> visited = new HashSet<>();
-
-        c(amount, coins, counter, "", visited);
-        return counter[0];
-
-    }
-
-    private void c(int amount, int[] coins, int[] counter, String key, HashSet<String> visited) {
-        if (amount == 0) {
-            String[] keys = key.split(";");
-            List<String> l = Arrays.asList(keys);
-            Collections.sort(l);
-            String k = "";
-            for(String s: l) {
-                k += "-" + s;
-            }
-            if (visited.contains(k) == false) {
-                counter[0] += 1;
-                visited.add(k);
+        for (int j=1; j<=amount; j++) {
+            for (int i=0; i<coins.length ; i++) {
+                if (coins[i] <= j) {
+                    dp[j] = dp[j] + dp[j-coins[i]];
+                }
             }
         }
-
-        if (amount < 0) {
-            return;
-        }
-
-        for (int c: coins) {
-            c(amount-c, coins, counter, c+";"+key, visited);
-        }
+        return dp[amount];
     }
+
+
 
     public static void main(String[] args) {
 
         CoinChange c = new CoinChange();
         int[] coins = new int[]{1,2,5};
-        int count = c.change(500, coins);
+        int count = c.change(4, coins);
         System.out.print(count);
     }
 }
