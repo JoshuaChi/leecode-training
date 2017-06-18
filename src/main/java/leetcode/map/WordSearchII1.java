@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Joshua on 6/18/17.
  */
-public class WordSearchII {
+public class WordSearchII1 {
     HashMap<Character, List<String>> map = new HashMap<>();
 
     public List<String> findWords(char[][] board, String[] words) {
@@ -111,7 +111,7 @@ public class WordSearchII {
     }
 
     public static void main(String[] args) {
-        WordSearchII wordSearchII = new WordSearchII();
+        WordSearchII1 wordSearchII1 = new WordSearchII1();
         String[] strMap = new String[3];
         strMap[0] = "abc";
         strMap[1] = "aed";
@@ -142,7 +142,7 @@ public class WordSearchII {
             i++;
         }
 
-        List<String> list = wordSearchII.findWords(map, words);
+        List<String> list = wordSearchII1.findWords(map, words);
         for (String s: list) {
             System.out.println(s);
         }
