@@ -1,4 +1,4 @@
-package packing_lot;
+package ood.packing_lot;
 
 /**
  * Created by Joshua on 6/8/17.

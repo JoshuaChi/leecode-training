@@ -1,4 +1,4 @@
-package packing_lot;
+package ood.packing_lot;
 
 import java.util.UUID;
 
