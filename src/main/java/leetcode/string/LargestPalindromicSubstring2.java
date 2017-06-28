@@ -2,39 +2,69 @@ package leetcode.string;
 
 
 /**
- * Created by Joshua on 6/15/17.
- * http://blog.csdn.net/camellhf/article/details/70337501
+ * Created by joshua.chi on 6/27/17.
+
+ Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+
+ Example:
+
+ Input: "babad"
+
+ Output: "bab"
+
+ Note: "aba" is also a valid answer.
+ Example:
+
+ Input: "cbbd"
+
+ Output: "bb"
+ Seen this question in a real interv
+
+ http://blog.csdn.net/camellhf/article/details/70337501
  */
 public class LargestPalindromicSubstring2 {
     private int pos = 0;
     private int maxLen = 0;
-    private int[] tracking;
 
     public static void main(String[] args) {
         LargestPalindromicSubstring2 l = new LargestPalindromicSubstring2();
 //        String text = "abbbbbbbaccdd";
-        String text = "babad";
+        String text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+
         l.findLargestPalindromicSubstring(text);
 
 
     }
 
-    public void findLargestPalindromicSubstring(String text) {
-        this.find(text);
-        System.out.println(text.substring(pos-maxLen, pos+maxLen+1));
+    private String populateText(String text) {
+        StringBuffer buffer = new StringBuffer();
+        char split = '$';
+        buffer.append(split);
+        for (char c: text.toCharArray()) {
+            buffer.append(c);
+            buffer.append(split);
+        }
+        return buffer.toString();
     }
 
+    public void findLargestPalindromicSubstring(String text) {
+        text = populateText(text);
+        this.find(text);
+        String substring = text.substring(pos - maxLen, pos + maxLen + 1);
+        substring = substring.replaceAll("\\$", "");
+        System.out.println(substring);
+    }
 
     public void find(String text) {
         int length = text.length();
-        tracking = new int[length];
         for (int i = 0; i< length; i++) {
-            char c = text.charAt(i);
             int palindromicLength = Math.min(i, length-i-1);
-            if (f(text, i, palindromicLength)) {
-                if (palindromicLength > maxLen) {
-                    pos = i;
-                    maxLen = palindromicLength;
+            for (int l = palindromicLength; l >=0; l--) {
+                if (f(text, i, l)) {
+                    if (l > maxLen) {
+                        pos = i;
+                        maxLen = l;
+                    }
                 }
             }
         }
