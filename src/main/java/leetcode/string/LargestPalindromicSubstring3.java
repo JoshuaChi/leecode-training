@@ -21,6 +21,7 @@ package leetcode.string;
  Seen this question in a real interv
 
  http://blog.csdn.net/camellhf/article/details/70337501
+ http://blog.csdn.net/hopeztm/article/details/7932245
  */
 public class LargestPalindromicSubstring3 {
     private int pos = 0;
