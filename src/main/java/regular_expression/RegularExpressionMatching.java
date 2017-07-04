@@ -25,69 +25,67 @@ package regular_expression;
 public class RegularExpressionMatching {
     public boolean isMatch(String s, String p) {
 
-        if (p.length() < 1) {
+        int plength = p.length();
+        if (plength < 1) {
             return true;
         }
 
-        if (s.length() < 1) {
+        int slength = s.length();
+        if (slength < 1) {
             return true;
         }
-
 
         //if next character in p is '*' or '.', we will cutOneCharacter from s and reverse p;
-        int i = 0;
-        while(i < p.length()) {
-            s = cutOffString(s, p, i);
-            if (s.indexOf("#") != -1) {
-                return false;
-            }
-            if (s.equals("")) {
-                break;
-            }
-            i++;
-        }
+        boolean[][] dp = new boolean[plength][slength];
+        for (int i=0; i<plength; i++) {
+            char pc = p.charAt(i);
+            for (int j = 0; j<slength; j++) {
+                char sc = s.charAt(j);
 
-        if (i == (p.length()-1)) {
-            return true;
-        }
-
-        return false;
-    }
-
-
-    public String cutOffString(String s, String p, int i) {
-        if (s.length() < 1) {
-            return "";
-        }
-
-        char pc = p.charAt(i);
-
-        if (pc == '*') {
-            if (i == (p.length()-1)) {
-                return "";
-            }
-            else {
-                char nextPc = p.charAt(i+1);
-                int nextIndex = s.indexOf(nextPc);
-                if (nextIndex == -1) {
-                    return s;
+                if (pc == '.') {
+                    if ( (i-1) >= 0 && (j-1) >= 0) {
+                        dp[i][j] = dp[i-1][j-1];
+                    }
+                    else {
+                        dp[i][j] = true;
+                    }
+                }
+                else if(pc == '*') {
+                    //aac a*c
+                    char pc1 = p.charAt(i-1);
+                    if (sc == pc1 || pc1 == '.') {
+                        if (j-1 >=0 && i-1 >=0) {
+                            dp[i][j] = dp[i-1][j-1];
+                        }
+                        else {
+                            dp[i][j] = true;
+                        }
+                    }
+                    else {
+                        if(i-2 >=0) {
+                            dp[i][j] = dp[i][j-2];
+                        }
+                        dp[i][j] = false;
+                    }
                 }
                 else {
-                    return s.substring(nextIndex);
+                    if (pc == sc) {
+                        dp[i][j] = true;
+                    }
+                    else {
+                        if ((i-1) >= 0 ) {
+                            dp[i][j] = dp[i-1][j];
+                        }
+                        else {
+                            dp[i][j] = false;
+                        }
+                    }
                 }
             }
         }
-
-
-        if (pc == s.charAt(0) || pc == '.') {
-            return s.substring(1);
-        }
-
-        int index = s.indexOf(p);
-
-        return index == -1? ("#"+s): s.substring(index+1);
-
+        return dp[plength-1][slength-1];
     }
+
 
     public static void main(String[] args) {
 
