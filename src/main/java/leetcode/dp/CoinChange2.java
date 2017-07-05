@@ -9,13 +9,18 @@ import java.util.Scanner;
 public class CoinChange2 {
     static long getWays(long n, long[] c){
         long[][] dp = new long[(int)n+1][c.length+1];
-        dp[0][0] = 1L;
-        for (int i=1; i<dp.length; i++) {
+
+        for (int i=0; i<dp.length; i++) {
             Arrays.fill(dp[i], 0L);
+            dp[i][1] = 1;
         }
 
+        for (int i=0; i<dp[0].length; i++) {
+            dp[0][i] = 1;
+        }
+        dp[0][0] = 1L;
+
         for (int i=0; i<(int)n; i++) {
-            dp[i][1] = 1L;
             for (int j=0; j<c.length; j++) {
                 if ((long)i+1L >= c[j]) {
                     dp[i+1][j+1] = dp[i+1][j] + dp[i+1-(int)c[j]][j+1];
